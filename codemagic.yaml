@@ -1,0 +1,90 @@
+workflows:
+  ios-release:
+    name: iOS Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials  # Create this group in Codemagic UI
+      vars:
+        BUNDLE_ID: "com.multi.planner"
+        APP_STORE_APPLE_ID: "YOUR_APP_APPLE_ID"  # Set in Codemagic UI
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.multi.planner
+
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios && pod install
+
+      - name: Flutter analyze
+        script: |
+          flutter analyze || true
+
+      - name: Build IPA for distribution
+        script: |
+          flutter build ipa --release \
+            --build-name=2.1.0 \
+            --build-number=$PROJECT_BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+
+    publishing:
+      app_store_connect:
+        # Use Codemagic's App Store Connect integration
+        # Configure API key in Codemagic UI:
+        #   Settings > Integrations > App Store Connect
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false  # Set true when ready for production
+
+  android-release:
+    name: Android Release
+    max_build_duration: 30
+    instance_type: linux_x2
+
+    environment:
+      flutter: stable
+      groups:
+        - google_play_credentials  # Create this group in Codemagic UI
+      android_signing:
+        - android_keystore  # Configure keystore in Codemagic UI
+
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+
+      - name: Build AAB
+        script: |
+          flutter build appbundle --release \
+            --build-name=2.1.0 \
+            --build-number=$PROJECT_BUILD_NUMBER
+
+    artifacts:
+      - build/app/outputs/bundle/**/*.aab
+      - build/app/outputs/flutter-apk/**/*.apk
+      - flutter_drive.log
+
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
