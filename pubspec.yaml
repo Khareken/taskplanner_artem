@@ -1,7 +1,7 @@
 name: taskplanner
 description: Performance tracker with gamification - complete tasks, earn coins, extend deadlines.
 publish_to: 'none'
-version: 2.1.0+3
+version: 2.1.0+4
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
