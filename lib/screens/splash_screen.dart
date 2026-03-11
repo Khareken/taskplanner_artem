@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 import '../services/appsflyer_service.dart';
 import '../services/remote_config_service.dart';
@@ -56,8 +57,26 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> _requestTrackingPermission() async {
+    if (!Platform.isIOS) return;
+
+    // На iOS диалог ATT не покажется, пока приложение не станет активным.
+    // Ждём, пока lifecycle state не станет resumed.
+    while (WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
+
   Future<void> _handleFirstLaunch(SharedPreferences prefs) async {
     setState(() => _statusMessage = 'Setting up...');
+
+    // 0. Запрашиваем разрешение ATT (iOS) ДО инициализации любых SDK
+    await _requestTrackingPermission();
 
     // 1. Инициализируем Firebase Remote Config
     setState(() => _statusMessage = 'Loading configuration...');
