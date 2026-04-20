@@ -78,27 +78,23 @@ class _SplashScreenState extends State<SplashScreen> {
     // 0. Запрашиваем разрешение ATT (iOS) ДО инициализации любых SDK
     await _requestTrackingPermission();
 
-    // 1. Инициализируем Firebase Remote Config
-    setState(() => _statusMessage = 'Loading configuration...');
-    await RemoteConfigService().initialize();
-
-    // 2. Инициализируем AppsFlyer
-    setState(() => _statusMessage = 'Checking attribution...');
+    // 1. Запускаем Remote Config, AppsFlyer и OneSignal параллельно
+    setState(() => _statusMessage = 'Loading...');
     final appsFlyerService = AppsFlyerService();
-    await appsFlyerService.initialize(
-      devKey: AppConfig.appsFlyerDevKey,
-      appId: AppConfig.appsFlyerAppId,
-      isDebug: AppConfig.isDebug,
-    );
+    await Future.wait([
+      RemoteConfigService().initialize(),
+      appsFlyerService.initialize(
+        devKey: AppConfig.appsFlyerDevKey,
+        appId: AppConfig.appsFlyerAppId,
+        isDebug: AppConfig.isDebug,
+      ),
+      OneSignalService().initialize(
+        appId: AppConfig.oneSignalAppId,
+        isDebug: AppConfig.isDebug,
+      ),
+    ]);
 
-    // 3. Инициализируем OneSignal
-    setState(() => _statusMessage = 'Setting up notifications...');
-    await OneSignalService().initialize(
-      appId: AppConfig.oneSignalAppId,
-      isDebug: AppConfig.isDebug,
-    );
-
-    // 4. Ждем атрибуцию от AppsFlyer (с таймаутом)
+    // 2. Ждем атрибуцию от AppsFlyer (с таймаутом 2 сек)
     setState(() => _statusMessage = 'Verifying...');
     final isNonOrganic = await appsFlyerService.waitForAttribution();
     
@@ -288,7 +284,7 @@ class _SplashScreenState extends State<SplashScreen> {
             
             // App name
             const Text(
-              'Multi Planner',
+              'Task Planner',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,

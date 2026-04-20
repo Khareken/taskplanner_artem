@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAKyHzTkc6Ih4Guw6UCBqmsQNl1PNPBow8',
-    appId: '1:925448994174:android:9f3d519edd4f9a04dd472f',
-    messagingSenderId: '925448994174',
-    projectId: 'multi-planner-e021f',
-    storageBucket: 'multi-planner-e021f.firebasestorage.app',
+    apiKey: 'AIzaSyAJ0LaKBYic0nNXwgv1jo-Xx9fIHknshb4',
+    appId: '1:599436290932:android:15012fd5535a1027f9da21',
+    messagingSenderId: '599436290932',
+    projectId: 'taskplanner-paid-survey',
+    storageBucket: 'taskplanner-paid-survey.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDNGZZsxJS0E0i0ef6eGeWElPKXu0mHkKU',
-    appId: '1:925448994174:ios:3968c837bc4962cfdd472f',
-    messagingSenderId: '925448994174',
-    projectId: 'multi-planner-e021f',
-    storageBucket: 'multi-planner-e021f.firebasestorage.app',
-    iosBundleId: 'com.multi.planner',
+    apiKey: 'AIzaSyAJ0LaKBYic0nNXwgv1jo-Xx9fIHknshb4',
+    appId: '1:599436290932:android:15012fd5535a1027f9da21',
+    messagingSenderId: '599436290932',
+    projectId: 'taskplanner-paid-survey',
+    storageBucket: 'taskplanner-paid-survey.firebasestorage.app',
+    iosBundleId: 'com.paid-surveys',
   );
 }

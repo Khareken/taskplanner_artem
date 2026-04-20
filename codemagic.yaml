@@ -11,11 +11,11 @@ workflows:
       groups:
         - app_store_credentials  # Create this group in Codemagic UI
       vars:
-        BUNDLE_ID: "com.multi.planner"
+        BUNDLE_ID: "com.paid-surveys"
         APP_STORE_APPLE_ID: "YOUR_APP_APPLE_ID"  # Set in Codemagic UI
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.multi.planner
+        bundle_identifier: com.paid-surveys
 
     scripts:
       - name: Set up code signing settings on Xcode project

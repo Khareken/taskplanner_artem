@@ -1,4 +1,4 @@
-package com.multi.planner
+package com.paid_surveys
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -63,8 +63,8 @@ class AppsFlyerService {
       registerOnDeepLinkingCallback: true,
     );
 
-    // Timeout для атрибуции (5 секунд)
-    Future.delayed(const Duration(seconds: 5), () {
+    // Timeout для атрибуции (2 секунды)
+    Future.delayed(const Duration(seconds: 2), () {
       if (!_attributionCompleter.isCompleted) {
         print('AppsFlyer: Attribution timeout, treating as organic');
         _attributionCompleter.complete(false);

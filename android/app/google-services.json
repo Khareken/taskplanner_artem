@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "925448994174",
-    "project_id": "multi-planner-e021f",
-    "storage_bucket": "multi-planner-e021f.firebasestorage.app"
+    "project_number": "599436290932",
+    "project_id": "taskplanner-paid-survey",
+    "storage_bucket": "taskplanner-paid-survey.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:925448994174:android:9f3d519edd4f9a04dd472f",
+        "mobilesdk_app_id": "1:599436290932:android:15012fd5535a1027f9da21",
         "android_client_info": {
-          "package_name": "com.multi.planner"
+          "package_name": "com.paid_surveys"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAKyHzTkc6Ih4Guw6UCBqmsQNl1PNPBow8"
+          "current_key": "AIzaSyAJ0LaKBYic0nNXwgv1jo-Xx9fIHknshb4"
         }
       ],
       "services": {
